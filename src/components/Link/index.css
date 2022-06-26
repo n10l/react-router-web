@@ -1,0 +1,10 @@
+.link,
+.link:hover,
+.link:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link--block {
+  display: block;
+}

@@ -1,0 +1,59 @@
+{
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll.eslint": true,
+      "source.fixAll": true,
+      "eslint.autoFixOnSave": true
+    }
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll.eslint": true,
+      "source.fixAll": true,
+      "tslint.autoFixOnSave": true
+    }
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll.eslint": true,
+      "source.fixAll": true,
+      "eslint.autoFixOnSave": true
+    }
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll.eslint": true,
+      "source.fixAll": true,
+      "tslint.autoFixOnSave": true
+    }
+  },
+  "explorer.confirmDragAndDrop": false,
+  "css.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": ["css", "scss"],
+  "search.exclude": { "**/node_modules": true, "/dist": true },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "git.confirmSync": false,
+  "editor.suggestSelection": "first",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "git.ignoreRebaseWarning": true,
+  "workbench.editor.showTabs": true,
+  "editor.guides.bracketPairs": true,
+  "editor.formatOnSave": true,
+  "workbench.colorTheme": "Default Dark+",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "editor.fontSize": 13,
+  "telemetry.enableTelemetry": false
+}
