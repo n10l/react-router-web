@@ -3,7 +3,6 @@ import { HISTORY_SEQUENCE_SESSION_STORAGE_KEY } from '../../shared/constants';
 import {
   canUseDOM,
   dispatchCustomEvent,
-  mergeClassNames,
   syncLocalHistorySequence,
 } from '../../shared/miscUtil';
 import './index.css';
@@ -82,7 +81,7 @@ function Link({
 
   return (
     <a
-      className={mergeClassNames(['link', !inline ? 'link--block' : '', className])}
+      className={`route-link ${!inline ? 'route-link--block' : ''} ${className}`}
       href={href}
       ref={linkRef}
       target={target}

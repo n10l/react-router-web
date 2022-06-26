@@ -41,20 +41,3 @@ export const syncLocalHistorySequence = () => {
 
 export const canUseDOM =
   typeof window !== 'undefined' && window.document && window.document.createElement;
-
-export const mergeClassNames = (classNames: (string | undefined)[]) => {
-  if (!classNames) {
-    return '';
-  }
-  if (!Array.isArray(classNames)) {
-    return classNames;
-  }
-  let classNamesString = '';
-  classNames.forEach(className => {
-    if (className) {
-      classNamesString = `${classNamesString} ${className}`;
-    }
-  });
-
-  return classNamesString.trim().replace(/  +/g, ' ');
-};
