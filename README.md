@@ -1,8 +1,6 @@
 # Welcome to React Router Web
 
-- Generated using boilerplate [https://github.com/n10l/react-lib-boilerplate](https://github.com/n10l/react-lib-boilerplate)
-
-Ultrafast 2.5kB (Min + Zip) react-router written from scratch in typescript.
+Ultrafast 2.5kB (Min + Zip) customizable / SSR-friendly react-router written from scratch in typescript with react hooks.
 
 If using yarn:
 
@@ -12,17 +10,21 @@ If using npm:
 
 `npm install react-router-web`
 
-To use in code:
-
-- Advanced working example in /playground folder
-
 - Reference code:
 
-Declare `import { Router, init, Link } from 'react-router-web'`
+In index.ts / index.js of your React app, wrap your <App/> inside <RouteContextProvider></RouteContextProvider>:
 
-Then in code:
+```javascript
+import { RouteContextProvider } from 'react-router-web';
 
-In parent component of router:
+<React.StrictMode>
+  <RouteContextProvider>
+    <App />
+  </RouteContextProvider>
+</React.StrictMode>;
+```
+
+Then, create a routes.ts / routes.js file to add routes as below:
 
 ```javascript
 const routes = [
@@ -45,32 +47,45 @@ const routes = [
     component: SamplePage,
   },
 ];
-
-init(routes);
 ```
 
-Then to display router:
+Then, inside App.ts / App.js
 
 ```javascript
-<div>
-   <h2>Menu</h2>
-   <ul>
-      <li>
-      <Link href="/home">Home Page</Link>
-      </li>
-      <li>
-      <Link href="/about">About Page</Link>
-      </li>
-      <li>
-      <Link href="/sample">Sample Page</Link>
-      </li>
-   </ul>
-</div>
+import { initRoutes, Link, RouteContext, Router } from 'react-router-web';
+import { useContext } from 'react';
+import { routes } from './routes';
 
-<div>
-   <h2>Pages</h2>
-   <Router />
-</div>
+function App() {
+  const { location } = useContext(RouteContext);
+
+  initRoutes(routes);
+
+  return (
+    <div className="app">
+      <div>
+        <h2>Currently selected route: {location}</h2>
+        <ul>
+          <li>
+            <Link href="/home">Home Page</Link>
+          </li>
+          <li>
+            <Link href="/dashboard">Dashboard Page</Link>
+          </li>
+          <li>
+            <Link href="/about">About Page</Link>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Pages</h2>
+        <Router />
+      </div>
+    </div>
+  );
+}
+
+export default App;
 ```
 
 ## Editor Configuration
@@ -90,22 +105,7 @@ Recommended VSCode Extensions:
 - Yarn
 - Prettier + ESlint
 - Jest
-
-## Steps to use this project
-
-1. Update your library/component's **name**, **license**, **publishConfig** and **repository** fields in package.json as per your need.
-
-2. If external styles are used, replace `output: 'sample.css'` with your project's expected output bundled css file name.
-   People can import styles into their project as `import "sample/dist/sample.css"`;
-
-3. If .env file is used, make sure you updated your library/component name. Optionally, you can remove it.
-
-4. `yarn dev` for local development and `yarn build` to prepare dist folder for publishing.
-
-5. `yarn test-all` to run component and its playground app tests.
-
-6. Before publishing with npm make sure you are publishing to correct registry, public/private depending on project's need.\
-   Change **private:true** to **private:false** in package.json to publish package to public registry.
+- Generated using boilerplate [https://github.com/n10l/react-lib-boilerplate](https://github.com/n10l/react-lib-boilerplate)
 
 ## Available Scripts
 
@@ -117,9 +117,4 @@ To build the project
 
 ### `yarn fix:all`
 
-Runs prettier formatter followed by eslint and stylelint, to format code and fix lint issues.
-Prettier is not good enough to run alone, must always be followed lint fixes included in this command.
-
-## Playground app
-
-Based on minimal boilerplate [https://github.com/n10l/react-lib-boilerplate](https://github.com/n10l/react-lib-boilerplate) created in `playground/` folder. A sample usage of this component is demonstrated in playground app and can be very helpful while development of the component.
+Runs prettier formatter followed by eslint, to format code and fix lint issues.

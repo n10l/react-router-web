@@ -1,10 +1,11 @@
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { HISTORY_SEQUENCE_SESSION_STORAGE_KEY } from '../../shared/constants';
 import {
   canUseDOM,
   dispatchCustomEvent,
   syncLocalHistorySequence,
 } from '../../shared/miscUtil';
+import { RouteContext } from '../Router';
 import './index.css';
 import { LinkProps } from './index.types';
 
@@ -55,9 +56,11 @@ function Link({
   href,
   children,
   className,
+  activeClassName = 'active',
   onClick,
   replace = false,
 }: LinkProps) {
+  const { location } = useContext(RouteContext);
   const linkRef = useRef<HTMLAnchorElement>(null);
 
   function handleClick(event: React.MouseEvent) {
@@ -81,9 +84,11 @@ function Link({
 
   return (
     <a
-      className={`route-link ${!inline ? 'route-link--block' : ''} ${
-        className ?? ''
-      }`.trim()}
+      className={`route-link${!inline ? ' route-link--block ' : ''}${
+        href && activeClassName && location?.trim() === href?.trim()
+          ? ` ${activeClassName} `
+          : ''
+      } ${className ?? ''}`.trim()}
       href={href}
       ref={linkRef}
       target={target}

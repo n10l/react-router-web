@@ -4,6 +4,7 @@ export type LinkProps = {
   children: React.ReactNode;
   href?: string;
   className?: string;
+  activeClassName?: string;
   onClick?: React.MouseEventHandler;
   replace?: boolean;
 };

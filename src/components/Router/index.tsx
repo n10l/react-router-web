@@ -109,16 +109,15 @@ function getPage(
 }
 
 function Router({
-  setCurrentRoute,
   NotFoundPage = function () {
     return <div>Page Not Found</div>;
   },
   notFoundPagePrefetch,
 }: RouterProps) {
-  const { location, ...otherProps } = useContext(RouteContext);
+  const { location, setLocation, ...otherProps } = useContext(RouteContext);
 
   const [currentPath, setCurrentPath] = useState(
-    (canUseDOM && window.location && window.location.pathname) || location || null,
+    canUseDOM ? window.location?.pathname : location || null,
   );
 
   const historyChangeHandler = (event: PopStateEvent) => {
@@ -150,7 +149,7 @@ function Router({
     if (event.state && event.state.pathname) {
       const statePath = event.state.pathname;
       setCurrentPath(statePath.startsWith('/') ? statePath : `/${statePath}`);
-    } else if (window.location && window.location.pathname) {
+    } else if (window.location?.pathname) {
       setCurrentPath(window.location.pathname || '/');
       if (canUseDOM) {
         window.scrollTo(0, 0);
@@ -159,8 +158,8 @@ function Router({
   };
 
   useEffect(() => {
-    if (setCurrentRoute) {
-      setCurrentRoute(currentPath);
+    if (setLocation) {
+      setLocation(currentPath);
     }
   }, [currentPath]);
 
@@ -186,8 +185,15 @@ function Router({
 }
 
 function RouteContextProvider({ children }: { children: React.ReactNode }) {
+  const [currentRoute, setCurrentRoute] = useState(ROUTE_CONTEXT_DEFAULT_VALUE.location);
+
   return (
-    <RouteContext.Provider value={ROUTE_CONTEXT_DEFAULT_VALUE}>
+    <RouteContext.Provider
+      value={{
+        ...ROUTE_CONTEXT_DEFAULT_VALUE,
+        location: currentRoute,
+        setLocation: setCurrentRoute,
+      }}>
       {children}
     </RouteContext.Provider>
   );
