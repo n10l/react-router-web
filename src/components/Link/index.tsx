@@ -81,7 +81,9 @@ function Link({
 
   return (
     <a
-      className={`route-link ${!inline ? 'route-link--block' : ''} ${className}`}
+      className={`route-link ${!inline ? 'route-link--block' : ''} ${
+        className ?? ''
+      }`.trim()}
       href={href}
       ref={linkRef}
       target={target}

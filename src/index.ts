@@ -4,9 +4,9 @@ import {
   HISTORY_ACTION,
   initRoutes,
   RouteContext,
+  RouteContextProvider,
   Router,
 } from './components/Router';
-import { ROUTE_CONTEXT_DEFAULT_VALUE } from './contexts/RouteContext';
 
 export {
   Router,
@@ -15,6 +15,6 @@ export {
   initRoutes,
   getRouteMatch,
   RouteContext,
-  ROUTE_CONTEXT_DEFAULT_VALUE,
+  RouteContextProvider,
   HISTORY_ACTION,
 };

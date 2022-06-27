@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
-import { RouteContext } from '../../contexts/RouteContext';
+import { RouteContext, ROUTE_CONTEXT_DEFAULT_VALUE } from '../../contexts/RouteContext';
 import {
   HISTORY_ACTION,
   HISTORY_SEQUENCE_SESSION_STORAGE_KEY,
@@ -185,4 +185,19 @@ function Router({
   );
 }
 
-export { Router, initRoutes, getRouteMatch, RouteContext, HISTORY_ACTION };
+function RouteContextProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <RouteContext.Provider value={ROUTE_CONTEXT_DEFAULT_VALUE}>
+      {children}
+    </RouteContext.Provider>
+  );
+}
+
+export {
+  Router,
+  initRoutes,
+  getRouteMatch,
+  RouteContext,
+  RouteContextProvider,
+  HISTORY_ACTION,
+};
