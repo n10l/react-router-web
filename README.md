@@ -12,7 +12,7 @@ If using npm:
 
 - Reference code:
 
-In index.ts / index.js of your React app, wrap your <App/> inside <RouteContextProvider></RouteContextProvider>:
+In index.ts / index.js of your React app, wrap your `<App/>` inside `<RouteContextProvider></RouteContextProvider>`:
 
 ```javascript
 import { RouteContextProvider } from 'react-router-web';
