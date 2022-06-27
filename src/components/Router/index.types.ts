@@ -16,7 +16,7 @@ export type Route = {
 };
 
 export type RouterProps = {
-  setCurrentRoute: (route: string) => void;
-  NotFoundPage: ReactComponent;
-  notFoundPagePrefetch: string[];
+  setCurrentRoute?: (route: string) => void;
+  NotFoundPage?: ReactComponent;
+  notFoundPagePrefetch?: string[];
 };

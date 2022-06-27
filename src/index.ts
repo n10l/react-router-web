@@ -2,7 +2,7 @@ import { Link, navigate } from './components/Link';
 import {
   getRouteMatch,
   HISTORY_ACTION,
-  init,
+  initRoutes,
   RouteContext,
   Router,
 } from './components/Router';
@@ -12,7 +12,7 @@ export {
   Router,
   Link,
   navigate,
-  init,
+  initRoutes,
   getRouteMatch,
   RouteContext,
   ROUTE_CONTEXT_DEFAULT_VALUE,

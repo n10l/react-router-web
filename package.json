@@ -1,6 +1,6 @@
 {
   "name": "@n10l/react-router-web",
-  "version": "0.0.3",
+  "version": "0.0.19",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -8,13 +8,21 @@
     "dist"
   ],
   "license": "UNLICENSED",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/n10l/react-router-web.git"
+  },
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup --config rollup.config.ts --configPlugin typescript",
     "watch": "cross-env NODE_ENV=development rollup --config rollup.config.ts --configPlugin typescript --watch",
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write ./**/*.{js,jsx,ts,tsx,css,md,json}",
-    "fix:all": "yarn format && yarn lint:fix"
+    "fix:all": "yarn format && yarn lint:fix",
+    "npmpush": "yarn build && npm publish --scope=public"
   },
   "eslintConfig": {
     "extends": [
@@ -35,9 +43,7 @@
     ]
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-is": "^18.2.0",
-    "object-assign": "^4.1.1"
+    "react": "^18.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.1",
@@ -54,9 +60,11 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.1",
+    "object-assign": "^4.1.1",
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
+    "react-is": "^18.2.0",
     "rollup": "^2.75.7",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",

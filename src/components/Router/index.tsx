@@ -15,7 +15,7 @@ import { ReactComponent, Route, RouteMap, RouterProps } from './index.types';
 
 let routeMapping: RouteMap[] = [];
 
-function init(routes: Route[]) {
+function initRoutes(routes: Route[]) {
   if (routes) {
     routeMapping = buildRouteMapping(routes);
   } else {
@@ -104,14 +104,17 @@ function getPage(
       }
     }
   }
-  if (NotFoundPage) {
-    return <NotFoundPage />;
-  }
 
-  return <div>Page Not Found</div>;
+  return <NotFoundPage />;
 }
 
-function Router({ setCurrentRoute, NotFoundPage, notFoundPagePrefetch }: RouterProps) {
+function Router({
+  setCurrentRoute,
+  NotFoundPage = function () {
+    return <div>Page Not Found</div>;
+  },
+  notFoundPagePrefetch,
+}: RouterProps) {
   const { location, ...otherProps } = useContext(RouteContext);
 
   const [currentPath, setCurrentPath] = useState(
@@ -182,4 +185,4 @@ function Router({ setCurrentRoute, NotFoundPage, notFoundPagePrefetch }: RouterP
   );
 }
 
-export { Router, init, getRouteMatch, RouteContext, HISTORY_ACTION };
+export { Router, initRoutes, getRouteMatch, RouteContext, HISTORY_ACTION };
