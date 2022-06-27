@@ -1,6 +1,6 @@
 # Welcome to React Router Web
 
-Ultrafast 2.5kB (Min + Zip) customizable / SSR-friendly react-router written from scratch in typescript with react hooks.
+Ultrafast 2.6kB (Min + Zip) customizable / SSR-friendly react-router written from scratch in typescript with react hooks.
 
 If using yarn:
 
