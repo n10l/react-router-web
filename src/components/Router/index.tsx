@@ -29,10 +29,10 @@ function attachQueryParamProps(routeMatch: RouteMap, queryParams: any) {
   const newRouteMatch = routeMatch;
   if (queryParams && Object.keys(queryParams).length) {
     // Available in child components as queryParams prop
-    if (newRouteMatch.propsObject) {
-      newRouteMatch.propsObject.queryParams = queryParams;
+    if (newRouteMatch.routeProps) {
+      newRouteMatch.routeProps.queryParams = queryParams;
     } else {
-      newRouteMatch.propsObject = { queryParams };
+      newRouteMatch.routeProps = { queryParams };
     }
   }
 
@@ -63,16 +63,16 @@ function getRouteMatch(
       if (!routeMapping[i].matchGroups || !routeMapping[i].matchGroups?.length) {
         return attachQueryParamProps(routeMapping[i], queryParams);
       }
-      const propsObject: any = routeMapping[i].propsObject || {};
+      const routeProps: any = routeMapping[i].routeProps || {};
       const regexMatches = currentPath.match(routeMapping[i].regex as RegExp);
       const routeMatchGroups = routeMapping[i].matchGroups as any[];
       for (let j = 0; j < routeMatchGroups.length; j += 1) {
         if (regexMatches?.length && regexMatches[j + 1]) {
-          propsObject[routeMatchGroups[j]] = regexMatches[j + 1];
+          routeProps[routeMatchGroups[j]] = regexMatches[j + 1];
         }
       }
 
-      return attachQueryParamProps({ ...routeMapping[i], propsObject }, queryParams);
+      return attachQueryParamProps({ ...routeMapping[i], routeProps }, queryParams);
     }
     if (!routeMapping[i].regex) {
       return attachQueryParamProps(routeMapping[i], queryParams);
@@ -92,20 +92,29 @@ function getPage(
   currentPath: string | null,
   NotFoundPage: ReactComponent,
   notFoundPagePrefetch: any,
-) {
+): { component: ReactComponent | React.ReactElement; routeProps: any } {
+  let matchedComponent: React.ReactElement | null = null;
+  let routeProps: any = null;
   if (currentPath) {
     const routeMatch = getRouteMatch(currentPath, NotFoundPage, notFoundPagePrefetch);
     if (routeMatch) {
-      if (routeMatch.propsObject) {
-        return React.createElement(routeMatch.component, routeMatch.propsObject);
+      if (routeMatch.routeProps) {
+        matchedComponent = React.createElement(
+          routeMatch.component,
+          routeMatch.routeProps,
+        );
+        routeProps = routeMatch.routeProps;
       }
       if (routeMatch.component) {
-        return React.createElement(routeMatch.component);
+        matchedComponent = React.createElement(routeMatch.component);
       }
     }
   }
 
-  return <NotFoundPage />;
+  return {
+    component: matchedComponent || <NotFoundPage />,
+    routeProps,
+  };
 }
 
 function Router({
@@ -114,7 +123,8 @@ function Router({
   },
   notFoundPagePrefetch,
 }: RouterProps) {
-  const { location, setLocation, ...otherProps } = useContext(RouteContext);
+  const { location, setLocation, setRouteProps, ...otherProps } =
+    useContext(RouteContext);
 
   const [currentPath, setCurrentPath] = useState(
     canUseDOM ? window.location?.pathname : location || null,
@@ -157,9 +167,27 @@ function Router({
     }
   };
 
+  const pageMatchMemo = useMemo(
+    () => getPage(currentPath, NotFoundPage, notFoundPagePrefetch),
+    [currentPath],
+  );
+
+  const locationMemo = useMemo(
+    () => ({
+      location: currentPath,
+      ...otherProps,
+      routeProps: pageMatchMemo.routeProps || {},
+    }),
+    [currentPath],
+  );
+
   useEffect(() => {
     if (setLocation) {
       setLocation(currentPath);
+    }
+
+    if (setRouteProps) {
+      setRouteProps(pageMatchMemo.routeProps || {});
     }
   }, [currentPath]);
 
@@ -172,20 +200,16 @@ function Router({
     };
   }, []);
 
-  const locationMemo = useMemo(
-    () => ({ location: currentPath, ...otherProps }),
-    [currentPath],
-  );
-
   return (
     <RouteContext.Provider value={locationMemo}>
-      {getPage(currentPath, NotFoundPage, notFoundPagePrefetch)}
+      <>{pageMatchMemo.component}</>
     </RouteContext.Provider>
   );
 }
 
 function RouteContextProvider({ children }: { children: React.ReactNode }) {
   const [currentRoute, setCurrentRoute] = useState(ROUTE_CONTEXT_DEFAULT_VALUE.location);
+  const [routeProps, setRouteProps] = useState(ROUTE_CONTEXT_DEFAULT_VALUE.routeProps);
 
   return (
     <RouteContext.Provider
@@ -193,6 +217,8 @@ function RouteContextProvider({ children }: { children: React.ReactNode }) {
         ...ROUTE_CONTEXT_DEFAULT_VALUE,
         location: currentRoute,
         setLocation: setCurrentRoute,
+        routeProps,
+        setRouteProps,
       }}>
       {children}
     </RouteContext.Provider>

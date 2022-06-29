@@ -3,7 +3,7 @@ export type ReactComponent = React.FC | React.ComponentClass;
 export type RouteMap = {
   regex?: RegExp;
   matchGroups?: any[];
-  propsObject?: any;
+  routeProps?: any;
   component: ReactComponent;
   prefetch?: any;
 };
