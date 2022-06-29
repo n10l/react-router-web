@@ -41,3 +41,18 @@ export const syncLocalHistorySequence = () => {
 
 export const canUseDOM =
   typeof window !== 'undefined' && window.document && window.document.createElement;
+
+export const navigateRouteCheck = (
+  route: string,
+  preferTrailingSlash: boolean,
+  navigate: any,
+) => {
+  if (!navigate) {
+    return;
+  }
+  if (route !== '/' && route?.endsWith('/') && !preferTrailingSlash) {
+    navigate(route.slice(0, -1), true);
+  } else if (!route?.endsWith('/') && preferTrailingSlash) {
+    navigate(`${route}/`);
+  }
+};

@@ -8,9 +8,11 @@ import {
 import {
   canUseDOM,
   dispatchCustomEvent,
+  navigateRouteCheck,
   syncLocalHistorySequence,
 } from '../../shared/miscUtil';
 import { buildRouteMapping } from '../../shared/routeHelper';
+import { navigate } from '../Link';
 import { ReactComponent, Route, RouteMap, RouterProps } from './index.types';
 
 let routeMapping: RouteMap[] = [];
@@ -92,28 +94,34 @@ function getPage(
   currentPath: string | null,
   NotFoundPage: ReactComponent,
   notFoundPagePrefetch: any,
-): { component: ReactComponent | React.ReactElement; routeProps: any } {
+): {
+  component: ReactComponent | React.ReactElement;
+  routeProps: any;
+  preferTrailingSlash: boolean | undefined;
+} {
   let matchedComponent: React.ReactElement | null = null;
   let routeProps: any = null;
+  let preferTrailingSlash: boolean | undefined = undefined;
   if (currentPath) {
     const routeMatch = getRouteMatch(currentPath, NotFoundPage, notFoundPagePrefetch);
-    if (routeMatch) {
+    if (routeMatch && routeMatch.component) {
       if (routeMatch.routeProps) {
         matchedComponent = React.createElement(
           routeMatch.component,
           routeMatch.routeProps,
         );
         routeProps = routeMatch.routeProps;
-      }
-      if (routeMatch.component) {
+      } else {
         matchedComponent = React.createElement(routeMatch.component);
       }
+      preferTrailingSlash = routeMatch.preferTrailingSlash;
     }
   }
 
   return {
     component: matchedComponent || <NotFoundPage />,
     routeProps,
+    preferTrailingSlash,
   };
 }
 
@@ -171,6 +179,8 @@ function Router({
     () => getPage(currentPath, NotFoundPage, notFoundPagePrefetch),
     [currentPath],
   );
+
+  navigateRouteCheck(currentPath, pageMatchMemo.preferTrailingSlash || false, navigate);
 
   const locationMemo = useMemo(
     () => ({

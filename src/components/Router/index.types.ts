@@ -4,6 +4,7 @@ export type RouteMap = {
   regex?: RegExp;
   matchGroups?: any[];
   routeProps?: any;
+  preferTrailingSlash?: boolean;
   component: ReactComponent;
   prefetch?: any;
 };
@@ -11,7 +12,6 @@ export type RouteMap = {
 export type Route = {
   match: string;
   exact: boolean;
-  preferTrailingSlash: boolean;
   component: React.FC;
 };
 

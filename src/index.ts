@@ -7,6 +7,7 @@ import {
   RouteContextProvider,
   Router,
 } from './components/Router';
+import { navigateRouteCheck } from './shared/miscUtil';
 
 export {
   Router,
@@ -17,4 +18,5 @@ export {
   RouteContext,
   RouteContextProvider,
   HISTORY_ACTION,
+  navigateRouteCheck,
 };
