@@ -42,17 +42,12 @@ export const syncLocalHistorySequence = () => {
 export const canUseDOM =
   typeof window !== 'undefined' && window.document && window.document.createElement;
 
-export const navigateRouteCheck = (
-  route: string,
-  preferTrailingSlash: boolean,
-  navigate: any,
-) => {
-  if (!navigate) {
-    return;
-  }
+export const formatRoute = (route: string, preferTrailingSlash: boolean) => {
   if (route !== '/' && route?.endsWith('/') && !preferTrailingSlash) {
-    navigate(route.slice(0, -1), true);
+    return route.slice(0, -1);
   } else if (!route?.endsWith('/') && preferTrailingSlash) {
-    navigate(`${route}/`);
+    return `${route}/`;
   }
+
+  return route;
 };

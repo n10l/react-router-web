@@ -8,7 +8,7 @@ import {
 import {
   canUseDOM,
   dispatchCustomEvent,
-  navigateRouteCheck,
+  formatRoute,
   syncLocalHistorySequence,
 } from '../../shared/miscUtil';
 import { buildRouteMapping } from '../../shared/routeHelper';
@@ -180,7 +180,15 @@ function Router({
     [currentPath],
   );
 
-  navigateRouteCheck(currentPath, pageMatchMemo.preferTrailingSlash || false, navigate);
+  useEffect(() => {
+    const preferredRoute = formatRoute(
+      currentPath,
+      pageMatchMemo.preferTrailingSlash || false,
+    );
+    if (currentPath !== preferredRoute) {
+      navigate(preferredRoute, true);
+    }
+  }, [currentPath]);
 
   const locationMemo = useMemo(
     () => ({
