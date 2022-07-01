@@ -9,7 +9,7 @@ import { RouteContext } from '../Router';
 import './index.css';
 import { LinkProps } from './index.types';
 
-function navigate(internalPath: string, replace: boolean) {
+function navigate(internalPath: string, replace = false) {
   if (
     !canUseDOM ||
     (window.history &&
