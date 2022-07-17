@@ -10,7 +10,9 @@ export const dispatchCustomEvent = (eventName: string, eventData: any, type?: st
   } else if (typeof Event === 'function') {
     customEvent = new Event(eventName, eventData);
   } else {
-    return;
+    // Correctly fire popstate event on IE11 to prevent app crash.
+    customEvent = document.createEvent('Event');
+    customEvent.initEvent(eventName, true, true); // Not passing event data due to deprecation, may not work
   }
   window.dispatchEvent(customEvent);
 };

@@ -11,8 +11,8 @@ import {
   formatRoute,
   syncLocalHistorySequence,
 } from '../../shared/miscUtil';
+import navigate from '../../shared/navigate';
 import { buildRouteMapping } from '../../shared/routeHelper';
-import { navigate } from '../Link';
 import { ReactComponent, Route, RouteMap, RouterProps } from './index.types';
 
 let routeMapping: RouteMap[] = [];
@@ -131,12 +131,15 @@ function Router({
   },
   notFoundPagePrefetch,
 }: RouterProps) {
-  const { location, setLocation, setRouteProps, ...otherProps } =
-    useContext(RouteContext);
+  const { location, setLocation, setRouteProps } = useContext(RouteContext);
 
   const [currentPath, setCurrentPath] = useState(
     canUseDOM ? window.location?.pathname : location || null,
   );
+
+  useEffect(() => {
+    setCurrentPath(canUseDOM ? window.location?.pathname : location || null);
+  }, [location]);
 
   const historyChangeHandler = (event: PopStateEvent) => {
     let historyAction;
@@ -190,15 +193,6 @@ function Router({
     }
   }, [currentPath]);
 
-  const locationMemo = useMemo(
-    () => ({
-      location: currentPath,
-      ...otherProps,
-      routeProps: pageMatchMemo.routeProps || {},
-    }),
-    [currentPath],
-  );
-
   useEffect(() => {
     if (setLocation) {
       setLocation(currentPath);
@@ -218,11 +212,7 @@ function Router({
     };
   }, []);
 
-  return (
-    <RouteContext.Provider value={locationMemo}>
-      <>{pageMatchMemo.component}</>
-    </RouteContext.Provider>
-  );
+  return <>{pageMatchMemo.component}</>;
 }
 
 function RouteContextProvider({ children }: { children: React.ReactNode }) {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-type RouteContext = {
+type RouteContextProps = {
   actualHost: any;
   location: any;
   status: any;
@@ -10,7 +10,7 @@ type RouteContext = {
   setRouteProps?: any;
 };
 
-const ROUTE_CONTEXT_DEFAULT_VALUE: RouteContext = {
+const ROUTE_CONTEXT_DEFAULT_VALUE: RouteContextProps = {
   actualHost: null,
   location: null,
   status: null,
@@ -20,6 +20,6 @@ const ROUTE_CONTEXT_DEFAULT_VALUE: RouteContext = {
   setRouteProps: null,
 };
 
-const RouteContext = React.createContext<RouteContext>(ROUTE_CONTEXT_DEFAULT_VALUE);
+const RouteContext = React.createContext<RouteContextProps>(ROUTE_CONTEXT_DEFAULT_VALUE);
 
 export { RouteContext, ROUTE_CONTEXT_DEFAULT_VALUE };

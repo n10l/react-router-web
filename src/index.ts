@@ -1,4 +1,4 @@
-import { Link, navigate } from './components/Link';
+import Link from './components/Link';
 import {
   getRouteMatch,
   HISTORY_ACTION,
@@ -8,6 +8,7 @@ import {
   Router,
 } from './components/Router';
 import { formatRoute } from './shared/miscUtil';
+import navigate from './shared/navigate';
 
 export {
   Router,
